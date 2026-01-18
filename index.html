@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misi Sains Tahun 2: Versi Rawak Penuh</title>
+    <title>Misi Sains Tahun 2: Edisi Visual</title>
     <style>
         :root {
-            --primary: #FF6B6B;
-            --secondary: #4ECDC4;
-            --bg: #F7FFF7;
-            --text: #292F36;
+            --primary: #FF7675;
+            --secondary: #74B9FF;
+            --bg: #F0F3F4;
+            --card: #FFFFFF;
+            --text: #2D3436;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
             background-color: var(--bg);
             margin: 0;
             display: flex;
@@ -24,25 +25,24 @@
         }
 
         .container {
-            background: white;
+            background: var(--card);
             width: 90%;
             max-width: 500px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 20px;
             text-align: center;
-            border-top: 10px solid var(--primary);
+            border: 5px solid var(--secondary);
             position: relative;
             overflow: hidden;
         }
 
-        h1 { color: var(--primary); margin-bottom: 5px; font-size: 1.8rem; }
-        
+        /* TIMER BAR */
         .timer-bar {
-            height: 8px;
-            background: #eee;
-            border-radius: 4px;
-            margin: 15px 0;
+            height: 10px;
+            background: #dfe6e9;
+            border-radius: 5px;
+            margin: 10px 0;
             overflow: hidden;
         }
         .timer-fill {
@@ -52,66 +52,90 @@
             transition: width 1s linear;
         }
 
+        /* STATS */
         .stats {
             display: flex;
             justify-content: space-between;
+            font-size: 1.2rem;
             font-weight: bold;
-            color: #555;
-            margin-bottom: 20px;
+            color: #636e72;
+            margin-bottom: 10px;
         }
 
-        .question-box {
-            font-size: 1.25rem;
-            color: var(--text);
-            margin-bottom: 25px;
-            font-weight: 600;
-            min-height: 50px;
+        /* VISUAL AREA */
+        .visual-box {
+            height: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 10px;
+            animation: popIn 0.5s;
+        }
+        
+        .visual-emoji { font-size: 5rem; line-height: 1; }
+        
+        /* Jika guna gambar sebenar nanti */
+        .visual-img { 
+            max-height: 100%; 
+            max-width: 100%; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        .options-grid { display: flex; flex-direction: column; gap: 10px; }
+        /* QUESTION */
+        .question-box {
+            font-size: 1.3rem;
+            color: var(--text);
+            margin-bottom: 20px;
+            font-weight: bold;
+            min-height: 60px;
+        }
+
+        /* OPTIONS */
+        .options-grid { display: grid; gap: 10px; }
 
         .btn-opt {
-            background: white;
-            border: 2px solid #ddd;
-            padding: 15px;
-            border-radius: 12px;
+            background: #f1f2f6;
+            border: 2px solid #ced6e0;
+            padding: 12px;
+            border-radius: 15px;
             font-size: 1.1rem;
             cursor: pointer;
             transition: 0.2s;
-            color: #444;
-            text-align: left;
-            position: relative;
+            color: var(--text);
+            font-family: inherit;
+            font-weight: 600;
         }
         
-        .btn-opt:hover { background: #f9f9f9; border-color: var(--secondary); }
+        .btn-opt:hover { background: #dfe4ea; transform: scale(1.02); }
         .btn-opt:active { transform: scale(0.98); }
 
-        .btn-opt.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-        .btn-opt.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .btn-opt.correct { background: #55efc4; border-color: #00b894; color: #006266; }
+        .btn-opt.wrong { background: #ff7675; border-color: #d63031; color: #632c2c; }
 
+        /* SCREENS */
         .screen { display: none; }
         .screen.active { display: block; animation: fadeIn 0.5s; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         .btn-main {
             background: var(--secondary);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.2rem;
+            padding: 15px 50px;
+            font-size: 1.5rem;
             border-radius: 50px;
             cursor: pointer;
             font-weight: bold;
-            box-shadow: 0 4px 0 #3dbbb3;
+            box-shadow: 0 5px 0 #0984e3;
             margin-top: 15px;
+            font-family: inherit;
         }
         .btn-main:active { transform: translateY(4px); box-shadow: none; }
 
-        #feedback { margin-top: 15px; font-weight: bold; min-height: 20px; }
+        #feedback { margin-top: 10px; font-weight: bold; min-height: 25px; font-size: 1.1rem; }
+
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -119,20 +143,22 @@
 <div class="container">
     
     <div id="screen-start" class="screen active">
-        <div style="font-size: 4rem;">🧩</div>
-        <h1>Misi Sains Tahun 2</h1>
-        <p>Soalan & Jawapan diacak sepenuhnya!</p>
-        <button class="btn-main" onclick="initGame()">MULA CABARAN</button>
+        <div style="font-size: 5rem; margin-bottom: 10px;">👨‍🚀</div>
+        <h1 style="color: var(--secondary); margin:0;">Misi Sains Visual</h1>
+        <p>100 Soalan Bergambar!</p>
+        <button class="btn-main" onclick="initGame()">MULA</button>
     </div>
 
     <div id="screen-game" class="screen">
         <div class="stats">
             <span>❤️ <span id="lives">3</span></span>
-            <span>⭐ <span id="score">0</span></span>
+            <span>🌟 <span id="score">0</span></span>
         </div>
         
         <div class="timer-bar"><div class="timer-fill" id="timer"></div></div>
         
+        <div class="visual-box" id="q-visual"></div>
+
         <div class="question-box" id="q-text">Loading...</div>
         
         <div class="options-grid" id="opt-container"></div>
@@ -141,10 +167,10 @@
     </div>
 
     <div id="screen-end" class="screen">
-        <h1>Tamat!</h1>
-        <div style="font-size: 3rem;" id="end-icon">🏆</div>
+        <div style="font-size: 4rem;" id="end-icon">🎉</div>
+        <h1>Misi Selesai!</h1>
         <p>Markah Akhir:</p>
-        <h2 style="font-size: 3rem; color: var(--primary); margin: 10px 0;" id="final-score">0</h2>
+        <h2 style="font-size: 3.5rem; color: var(--primary); margin: 10px 0;" id="final-score">0</h2>
         <button class="btn-main" onclick="location.reload()">MAIN LAGI</button>
     </div>
 
@@ -153,107 +179,138 @@
 <script>
 document.addEventListener("DOMContentLoaded", function() {
 
-    // DATA SOALAN (Contoh 100 soalan, struktur dikekalkan)
+    // DATA 100 SOALAN (Dengan property 'img' untuk gambar/emoji)
+    // img: Boleh letak Emoji ATAU URL Gambar (contoh: 'https://example.com/cat.jpg')
     const db = [
-        {s:"Deria rasa menggunakan...", j:["Hidung","Lidah","Telinga"], b:1, n:"Lidah kesan rasa."},
-        {s:"Memerhati guna...", j:["Deria","Kaki","Rambut"], b:0, n:"Guna deria."},
-        {s:"Mengelas bermaksud...", j:["Asing & Kumpul","Buang","Makan"], b:0, n:"Asing ikut ciri."},
-        {s:"Alat ukur piawai?", j:["Jengkal","Pembaris","Depa"], b:1, n:"Pembaris beri ukuran tepat."},
-        {s:"Melakar mesti...", j:["Tepat","Cantik","Warna"], b:0, n:"Lakar dengan tepat."},
-        {s:"Bersihkan radas...", j:["Selepas guna","Esok","Tak perlu"], b:0, n:"Cuci lepas guna."},
-        {s:"Simpan radas di...", j:["Tempat asal","Beg","Lantai"], b:0, n:"Tempat selamat."},
-        {s:"Kendalikan spesimen...", j:["Cermat","Kasar","Main-main"], b:0, n:"Dengan cermat."},
-        {s:"Komunikasi ialah...", j:["Sampaikan info","Tidur","Makan"], b:0, n:"Berkongsi maklumat."},
-        {s:"Buang sisa cecair ke...", j:["Sinki","Tong sampah","Lantai"], b:0, n:"Ke dalam sinki."},
-        {s:"Buang sampah pepejal ke...", j:["Sinki","Tong sampah","Tingkap"], b:1, n:"Ke tong sampah."},
-        {s:"Jika radas pecah...", j:["Lapor guru","Diamkan","Sorok"], b:0, n:"Beritahu guru."},
-        {s:"Dilarang ___ di bilik sains.", j:["Makan/Minum","Bernafas","Duduk"], b:0, n:"Jangan makan."},
-        {s:"Masuk bilik sains...", j:["Kebenaran guru","Senyap-senyap","Lari"], b:0, n:"Tunggu guru."},
-        {s:"Beg sekolah letak di...", j:["Luar/Rak","Atas meja","Lantai"], b:0, n:"Tempat beg."},
-        {s:"Jangan ___ di dalam bilik.", j:["Berlari","Belajar","Melihat"], b:0, n:"Jaga keselamatan."},
-        {s:"Radas kotor perlu...", j:["Dicuci","Dibuang","Disimpan"], b:0, n:"Cuci bersih."},
-        {s:"Jika berlaku api...", j:["Beritahu guru","Lari rumah","Nangis"], b:0, n:"Lapor guru."},
-        {s:"Susun kerusi sebelum...", j:["Keluar","Masuk","Tidur"], b:0, n:"Kemas sebelum keluar."},
-        {s:"Manusia membiak cara...", j:["Melahirkan","Bertelur","Belah diri"], b:0, n:"Melahirkan anak."},
-        {s:"Urutan: Bayi -> ...", j:["Kanak-kanak","Remaja","Dewasa"], b:0, n:"Jadi kanak-kanak."},
-        {s:"Urutan: Kanak-kanak -> ...", j:["Remaja","Bayi","Tua"], b:0, n:"Jadi remaja."},
-        {s:"Bila membesar, tinggi...", j:["Bertambah","Kurang","Sama"], b:0, n:"Makin tinggi."},
-        {s:"Bila membesar, saiz...", j:["Bertambah","Kecil","Hilang"], b:0, n:"Makin besar."},
-        {s:"Ciri diwarisi: Warna...", j:["Iris mata","Kasut","Buku"], b:0, n:"Warna mata diwarisi."},
-        {s:"Ciri diwarisi: Jenis...", j:["Rambut","Basikal","Pen"], b:0, n:"Rambut diwarisi."},
-        {s:"Ciri diwarisi: Warna...", j:["Kulit","Beg","Baju"], b:0, n:"Warna kulit."},
-        {s:"Tumbesaran individu...", j:["Berbeza","Sama","Serupa"], b:0, n:"Setiap orang beza."},
-        {s:"Anak warisi ciri...", j:["Ibu bapa","Kawan","Guru"], b:0, n:"Dari keturunan."},
-        {s:"Haiwan bertelur BANYAK?", j:["Katak","Ayam","Burung"], b:0, n:"Katak & Ikan."},
-        {s:"Haiwan bertelur SEDIKIT?", j:["Ayam","Ikan","Katak"], b:0, n:"Ayam & Burung."},
-        {s:"Haiwan lahir anak BANYAK?", j:["Kucing","Gajah","Panda"], b:0, n:"Kucing & Arnab."},
-        {s:"Haiwan lahir anak SEDIKIT?", j:["Gajah","Tikus","Kucing"], b:0, n:"Gajah & Panda."},
-        {s:"Anak SERUPA induk?", j:["Lembu","Katak","Rama-rama"], b:0, n:"Anak lembu."},
-        {s:"Anak TAK SERUPA induk?", j:["Rama-rama","Lembu","Kambing"], b:0, n:"Beluncas."},
-        {s:"Telur -> Berudu -> ...", j:["Katak","Ikan","Buaya"], b:0, n:"Kitaran katak."},
-        {s:"Telur -> Beluncas -> ...", j:["Rama-rama","Lalat","Nyamuk"], b:0, n:"Kitaran rama-rama."},
-        {s:"Telur -> Jentik -> ...", j:["Nyamuk","Katak","Lalat"], b:0, n:"Kitaran nyamuk."},
-        {s:"Panda membiak...", j:["Melahirkan","Bertelur","Tunas"], b:0, n:"Melahirkan anak."},
-        {s:"Keperluan bercambah?", j:["Air,Udara,Suhu","Baja","Cahaya"], b:0, n:"Air, Udara, Suhu."},
-        {s:"Tumbesaran perlu...", j:["Cahaya,Air","Bateri","Pasir"], b:0, n:"Cahaya & Air."},
-        {s:"Bila membesar, daun...", j:["Bertambah","Kurang","Sama"], b:0, n:"Daun makin banyak."},
-        {s:"Bila membesar, batang...", j:["Membesar","Kecil","Putus"], b:0, n:"Lilitan bertambah."},
-        {s:"Bila membesar, pokok...", j:["Tinggi","Rendah","Kecil"], b:0, n:"Makin tinggi."},
-        {s:"Tumbuhan sumber ___ haiwan.", j:["Makanan","Air","Cahaya"], b:0, n:"Sumber makanan."},
-        {s:"Tumbuhan beri gas...", j:["Oksigen","Asap","Wap"], b:0, n:"Oksigen."},
-        {s:"Tumbuhan ialah...", j:["Habitat","Musuh","Hiasan"], b:0, n:"Tempat tinggal haiwan."},
-        {s:"Urutan: Biji benih -> ...", j:["Anak pokok","Buah","Bunga"], b:0, n:"Jadi anak pokok."},
-        {s:"Pokok layu jika kurang...", j:["Air","Tanah","Pasu"], b:0, n:"Kurang air."},
-        {s:"Sumber cahaya utama?", j:["Matahari","Lampu","Bulan"], b:0, n:"Matahari."},
-        {s:"Cahaya buatan?", j:["Lampu","Matahari","Bintang"], b:0, n:"Lampu & Api."},
-        {s:"Bayang terjadi bila...", j:["Dihalang","Tembus","Pantul"], b:0, n:"Cahaya dihalang."},
-        {s:"Objek legap...", j:["Halang cahaya","Tembus","Jernih"], b:0, n:"Tiada cahaya tembus."},
-        {s:"Kerja mudah bila...", j:["Terang","Gelap","Malam"], b:0, n:"Keadaan terang."},
-        {s:"Wayang kulit guna...", j:["Bayang-bayang","Pantulan","Biasan"], b:0, n:"Bayang-bayang."},
-        {s:"Objek lutsinar...", j:["Tiada bayang","Bayang hitam","Gelap"], b:0, n:"Cahaya tembus."},
-        {s:"Arah bayang...", j:["Bertentangan","Sama","Atas"], b:0, n:"Lawan arah cahaya."},
-        {s:"Waktu malam perlu...", j:["Lampu","Kipas","Air"], b:0, n:"Sumber cahaya."},
-        {s:"Saiz bayang besar jika...", j:["Dekat cahaya","Jauh","Tinggi"], b:0, n:"Dekat sumber cahaya."},
-        {s:"Bekalkan tenaga elektrik?", j:["Sel kering","Mentol","Suis"], b:0, n:"Bateri/Sel kering."},
-        {s:"Keluarkan cahaya?", j:["Mentol","Suis","Wayar"], b:0, n:"Mentol."},
-        {s:"Sambung/Putus litar?", j:["Suis","Sel kering","Mentol"], b:0, n:"Suis."},
-        {s:"Alirkan arus?", j:["Wayar","Mentol","Bateri"], b:0, n:"Wayar."},
-        {s:"Mentol menyala jika suis...", j:["Tertutup","Terbuka","Rosak"], b:0, n:"Litar lengkap."},
-        {s:"Mentol padam jika suis...", j:["Terbuka","Tertutup","Baru"], b:0, n:"Litar tak lengkap."},
-        {s:"Konduktor ialah...", j:["Alir arus","Halang arus","Penebat"], b:0, n:"Boleh alir elektrik."},
-        {s:"Penebat ialah...", j:["Halang arus","Alir arus","Logam"], b:0, n:"Tidak alir elektrik."},
-        {s:"Contoh Konduktor?", j:["Paku besi","Kayu","Plastik"], b:0, n:"Besi alir elektrik."},
-        {s:"Contoh Penebat?", j:["Getah","Emas","Air"], b:0, n:"Getah halang arus."},
-        {s:"Asing klip kertas & pasir?", j:["Magnet","Turas","Ayak"], b:0, n:"Guna magnet."},
-        {s:"Asing tepung & batu?", j:["Ayak","Magnet","Apung"], b:0, n:"Mengayak."},
-        {s:"Asing daun di air?", j:["Apung","Magnet","Turas"], b:0, n:"Mengapung."},
-        {s:"Asing lumpur & air?", j:["Turas","Magnet","Ayak"], b:0, n:"Menuras."},
-        {s:"Larut cepat jika air...", j:["Panas","Sejuk","Ais"], b:0, n:"Air panas."},
-        {s:"Larut cepat jika...", j:["Diaduk","Dibiarkan","Tidur"], b:0, n:"Kacau/Aduk."},
-        {s:"Saiz bahan larut cepat?", j:["Halus","Besar","Ketul"], b:0, n:"Saiz kecil."},
-        {s:"Menyisih untuk...", j:["Bahan besar","Cecair","Halus"], b:0, n:"Kutip satu-satu."},
-        {s:"Gula larut dalam...", j:["Air","Minyak","Batu"], b:0, n:"Air pelarut."},
-        {s:"Batu dalam air akan...", j:["Tenggelam","Terapung","Larut"], b:0, n:"Tenggelam."},
-        {s:"Sumber air semulajadi?", j:["Hujan","Paip","Tangki"], b:0, n:"Hujan/Sungai."},
-        {s:"Air mengalir dari...", j:["Tinggi ke rendah","Rendah ke tinggi","Atas"], b:0, n:"Tinggi ke rendah."},
-        {s:"Udara bergerak ialah...", j:["Angin","Wap","Gas"], b:0, n:"Angin."},
-        {s:"Gas untuk bernafas?", j:["Oksigen","Asap","Warna"], b:0, n:"Oksigen."},
-        {s:"Kebaikan angin?", j:["Gerak kapal layar","Roboh rumah","Banjir"], b:0, n:"Gerakkan layar."},
-        {s:"Keburukan angin kencang?", j:["Ombak besar","Nyaman","Sejuk"], b:0, n:"Bahaya/Kerosakan."},
-        {s:"Wap air menjadi...", j:["Awan","Batu","Tanah"], b:0, n:"Awan."},
-        {s:"Sungai mengalir ke...", j:["Laut","Bukit","Langit"], b:0, n:"Ke laut."},
-        {s:"Hujan turun dari...", j:["Awan","Bulan","Matahari"], b:0, n:"Awan."},
-        {s:"Perlu udara untuk...", j:["Bernafas","Makan","Mandi"], b:0, n:"Bernafas."},
-        {s:"Pasang set binaan rujuk...", j:["Manual","Buku cerita","TV"], b:0, n:"Manual bergambar."},
-        {s:"Set binaan ada pelbagai...", j:["Bentuk/Warna","Rasa","Bunyi"], b:0, n:"Bentuk & Warna."},
-        {s:"Bentuk komponen?", j:["Kiub/Prisma","Kertas","Kain"], b:0, n:"Kiub, Prisma."},
-        {s:"Jika komponen hilang?", j:["Tak lengkap","Siap","Cantik"], b:0, n:"Model tak siap."},
-        {s:"Simpan komponen di...", j:["Kotak set","Beg","Lantai"], b:0, n:"Kotak asal."},
-        {s:"Lepas guna, perlu...", j:["Buka & Simpan","Buang","Biarkan"], b:0, n:"Buka dulu."},
-        {s:"Manual ialah...", j:["Panduan pasang","Cerita","Lagu"], b:0, n:"Panduan."},
-        {s:"Boleh bina model lain?", j:["Boleh","Tidak","Salah"], b:0, n:"Ikut kreativiti."},
-        {s:"Pastikan komponen...", j:["Cukup","Kurang","Rosak"], b:0, n:"Mencukupi."},
-        {s:"Jaga komponen dengan...", j:["Cermat","Kasar","Pijak"], b:0, n:"Cermat."}
+        // Unit 1
+        {s:"Deria rasa menggunakan...", img:"👅", j:["Hidung","Lidah","Telinga"], b:1, n:"Lidah kesan rasa."},
+        {s:"Memerhati guna...", img:"👀", j:["Deria","Kaki","Rambut"], b:0, n:"Guna mata, telinga, dll."},
+        {s:"Mengelas bermaksud...", img:"📂", j:["Asing & Kumpul","Buang","Makan"], b:0, n:"Asing ikut ciri."},
+        {s:"Alat ukur piawai?", img:"📏", j:["Jengkal","Pembaris","Depa"], b:1, n:"Pembaris beri ukuran tepat."},
+        {s:"Melakar mesti...", img:"✏️", j:["Tepat","Cantik","Warna"], b:0, n:"Lakar dengan tepat."},
+        {s:"Bersihkan radas...", img:"🧼", j:["Selepas guna","Esok","Tak perlu"], b:0, n:"Cuci lepas guna."},
+        {s:"Simpan radas di...", img:"🗄️", j:["Tempat asal","Beg","Lantai"], b:0, n:"Tempat selamat."},
+        {s:"Kendalikan spesimen...", img:"🐌", j:["Cermat","Kasar","Main-main"], b:0, n:"Dengan cermat."},
+        {s:"Komunikasi ialah...", img:"🗣️", j:["Sampaikan info","Tidur","Makan"], b:0, n:"Berkongsi maklumat."},
+        {s:"Buang sisa cecair ke...", img:"🚰", j:["Sinki","Tong sampah","Lantai"], b:0, n:"Ke dalam sinki."},
+        
+        // Unit 2
+        {s:"Buang sampah pepejal ke...", img:"🗑️", j:["Sinki","Tong sampah","Tingkap"], b:1, n:"Ke tong sampah."},
+        {s:"Jika radas pecah...", img:"💥", j:["Lapor guru","Diamkan","Sorok"], b:0, n:"Beritahu guru."},
+        {s:"Dilarang ___ di bilik sains.", img:"🍔", j:["Makan/Minum","Bernafas","Duduk"], b:0, n:"Jangan makan."},
+        {s:"Masuk bilik sains...", img:"🚪", j:["Kebenaran guru","Senyap-senyap","Lari"], b:0, n:"Tunggu guru."},
+        {s:"Beg sekolah letak di...", img:"🎒", j:["Luar/Rak","Atas meja","Lantai"], b:0, n:"Tempat beg."},
+        {s:"Jangan ___ di dalam bilik.", img:"🏃", j:["Berlari","Belajar","Melihat"], b:0, n:"Jaga keselamatan."},
+        {s:"Radas kotor perlu...", img:"🧽", j:["Dicuci","Dibuang","Disimpan"], b:0, n:"Cuci bersih."},
+        {s:"Jika berlaku api...", img:"🔥", j:["Beritahu guru","Lari rumah","Nangis"], b:0, n:"Lapor guru."},
+        {s:"Susun kerusi sebelum...", img:"🪑", j:["Keluar","Masuk","Tidur"], b:0, n:"Kemas sebelum keluar."},
+        {s:"Bahan kimia dilarang...", img:"🧪", j:["Rasa/Hidu","Lihat","Pegang botol"], b:0, n:"Bahaya beracun."},
+
+        // Unit 3 (Manusia)
+        {s:"Manusia membiak cara...", img:"🤰", j:["Melahirkan","Bertelur","Belah diri"], b:0, n:"Melahirkan anak."},
+        {s:"Urutan: Bayi -> ...", img:"👶", j:["Kanak-kanak","Remaja","Dewasa"], b:0, n:"Jadi kanak-kanak."},
+        {s:"Urutan: Kanak-kanak -> ...", img:"👦", j:["Remaja","Bayi","Tua"], b:0, n:"Jadi remaja."},
+        {s:"Bila membesar, tinggi...", img:"📏", j:["Bertambah","Kurang","Sama"], b:0, n:"Makin tinggi."},
+        {s:"Bila membesar, saiz...", img:"👕", j:["Bertambah","Kecil","Hilang"], b:0, n:"Makin besar."},
+        {s:"Ciri diwarisi: Warna...", img:"👁️", j:["Iris mata","Kasut","Buku"], b:0, n:"Warna mata diwarisi."},
+        {s:"Ciri diwarisi: Jenis...", img:"🦱", j:["Rambut","Basikal","Pen"], b:0, n:"Rambut diwarisi."},
+        {s:"Ciri diwarisi: Warna...", img:"✋", j:["Kulit","Beg","Baju"], b:0, n:"Warna kulit."},
+        {s:"Tumbesaran individu...", img:"👯", j:["Berbeza","Sama","Serupa"], b:0, n:"Setiap orang beza."},
+        {s:"Anak warisi ciri...", img:"👨‍👩‍👧", j:["Ibu bapa","Kawan","Guru"], b:0, n:"Dari keturunan."},
+
+        // Unit 4 (Haiwan)
+        {s:"Haiwan bertelur BANYAK?", img:"🐸", j:["Katak","Ayam","Burung"], b:0, n:"Katak & Ikan."},
+        {s:"Haiwan bertelur SEDIKIT?", img:"🐔", j:["Ayam","Ikan","Katak"], b:0, n:"Ayam & Burung."},
+        {s:"Haiwan lahir anak BANYAK?", img:"🐈", j:["Kucing","Gajah","Panda"], b:0, n:"Kucing & Arnab."},
+        {s:"Haiwan lahir anak SEDIKIT?", img:"🐘", j:["Gajah","Tikus","Kucing"], b:0, n:"Gajah & Panda."},
+        {s:"Anak SERUPA induk?", img:"🐄", j:["Lembu","Katak","Rama-rama"], b:0, n:"Anak lembu."},
+        {s:"Anak TAK SERUPA induk?", img:"🦋", j:["Rama-rama","Lembu","Kambing"], b:0, n:"Beluncas."},
+        {s:"Telur -> Berudu -> ...", img:"🥚", j:["Katak","Ikan","Buaya"], b:0, n:"Kitaran katak."},
+        {s:"Telur -> Beluncas -> ...", img:"🐛", j:["Rama-rama","Lalat","Nyamuk"], b:0, n:"Kitaran rama-rama."},
+        {s:"Telur -> Jentik -> ...", img:"🦟", j:["Nyamuk","Katak","Lalat"], b:0, n:"Kitaran nyamuk."},
+        {s:"Panda membiak...", img:"🐼", j:["Melahirkan","Bertelur","Tunas"], b:0, n:"Melahirkan anak."},
+        {s:"Tenggiling membiak...", img:"🐾", j:["Melahirkan","Bertelur","Spora"], b:0, n:"Melahirkan."},
+        {s:"Kura-kura membiak...", img:"🐢", j:["Bertelur","Melahirkan","Tunas"], b:0, n:"Bertelur."},
+        {s:"Anak rama-rama dipanggil...", img:"🐛", j:["Beluncas","Ulat","Cacing"], b:0, n:"Beluncas."},
+        {s:"Anak katak dipanggil...", img:"🐸", j:["Berudu","Ikan","Jentik"], b:0, n:"Berudu."},
+        {s:"Cicak bertelur...", img:"🦎", j:["Sedikit","Banyak","Ribuan"], b:0, n:"Sedikit."},
+
+        // Unit 5 (Tumbuhan)
+        {s:"Keperluan bercambah?", img:"🌱", j:["Air,Udara,Suhu","Baja","Cahaya"], b:0, n:"Air, Udara, Suhu."},
+        {s:"Tumbesaran perlu...", img:"☀️", j:["Cahaya,Air","Bateri","Pasir"], b:0, n:"Cahaya & Air."},
+        {s:"Bila membesar, daun...", img:"🍃", j:["Bertambah","Kurang","Sama"], b:0, n:"Daun makin banyak."},
+        {s:"Bila membesar, batang...", img:"🌳", j:["Membesar","Kecil","Putus"], b:0, n:"Lilitan bertambah."},
+        {s:"Bila membesar, pokok...", img:"📏", j:["Tinggi","Rendah","Kecil"], b:0, n:"Makin tinggi."},
+        {s:"Tumbuhan sumber ___ haiwan.", img:"🍏", j:["Makanan","Air","Cahaya"], b:0, n:"Sumber makanan."},
+        {s:"Tumbuhan beri gas...", img:"💨", j:["Oksigen","Asap","Wap"], b:0, n:"Oksigen."},
+        {s:"Tumbuhan ialah...", img:"🏡", j:["Habitat","Musuh","Hiasan"], b:0, n:"Tempat tinggal haiwan."},
+        {s:"Urutan: Biji benih -> ...", img:"🌿", j:["Anak pokok","Buah","Bunga"], b:0, n:"Jadi anak pokok."},
+        {s:"Pokok layu jika kurang...", img:"🥀", j:["Air","Tanah","Pasu"], b:0, n:"Kurang air."},
+
+        // Unit 6 (Terang Gelap)
+        {s:"Sumber cahaya utama?", img:"☀️", j:["Matahari","Lampu","Bulan"], b:0, n:"Matahari."},
+        {s:"Cahaya buatan?", img:"💡", j:["Lampu","Matahari","Bintang"], b:0, n:"Lampu & Api."},
+        {s:"Bayang terjadi bila...", img:"👥", j:["Dihalang","Tembus","Pantul"], b:0, n:"Cahaya dihalang."},
+        {s:"Objek legap...", img:"🧱", j:["Halang cahaya","Tembus","Jernih"], b:0, n:"Tiada cahaya tembus."},
+        {s:"Kerja mudah bila...", img:"🔦", j:["Terang","Gelap","Malam"], b:0, n:"Keadaan terang."},
+        {s:"Wayang kulit guna...", img:"🎭", j:["Bayang-bayang","Pantulan","Biasan"], b:0, n:"Bayang-bayang."},
+        {s:"Objek lutsinar...", img:"🪟", j:["Tiada bayang","Bayang hitam","Gelap"], b:0, n:"Cahaya tembus."},
+        {s:"Arah bayang...", img:"⬅️", j:["Bertentangan","Sama","Atas"], b:0, n:"Lawan arah cahaya."},
+        {s:"Waktu malam perlu...", img:"🕯️", j:["Lampu","Kipas","Air"], b:0, n:"Sumber cahaya."},
+        {s:"Saiz bayang besar jika...", img:"🔦", j:["Dekat cahaya","Jauh","Tinggi"], b:0, n:"Dekat sumber cahaya."},
+
+        // Unit 7 (Elektrik)
+        {s:"Bekalkan tenaga elektrik?", img:"🔋", j:["Sel kering","Mentol","Suis"], b:0, n:"Bateri/Sel kering."},
+        {s:"Keluarkan cahaya?", img:"💡", j:["Mentol","Suis","Wayar"], b:0, n:"Mentol."},
+        {s:"Sambung/Putus litar?", img:"🔘", j:["Suis","Sel kering","Mentol"], b:0, n:"Suis."},
+        {s:"Alirkan arus?", img:"➰", j:["Wayar","Mentol","Bateri"], b:0, n:"Wayar."},
+        {s:"Mentol menyala jika suis...", img:"🟢", j:["Tertutup","Terbuka","Rosak"], b:0, n:"Litar lengkap."},
+        {s:"Mentol padam jika suis...", img:"🔴", j:["Terbuka","Tertutup","Baru"], b:0, n:"Litar tak lengkap."},
+        {s:"Konduktor ialah...", img:"⚡", j:["Alir arus","Halang arus","Penebat"], b:0, n:"Boleh alir elektrik."},
+        {s:"Penebat ialah...", img:"🚫", j:["Halang arus","Alir arus","Logam"], b:0, n:"Tidak alir elektrik."},
+        {s:"Contoh Konduktor?", img:"📎", j:["Paku besi","Kayu","Plastik"], b:0, n:"Besi alir elektrik."},
+        {s:"Contoh Penebat?", img:"🧤", j:["Getah","Emas","Air"], b:0, n:"Getah halang arus."},
+        {s:"Sudu logam ialah...", img:"🥄", j:["Konduktor","Penebat","Sumber"], b:0, n:"Logam konduktor."},
+        {s:"Pemadam ialah...", img:"✏️", j:["Penebat","Konduktor","Bateri"], b:0, n:"Getah penebat."},
+        {s:"Jika bateri lemah...", img:"📉", j:["Mentol malap","Mentol terang","Meletup"], b:0, n:"Kurang tenaga."},
+        {s:"Simbol (+) pada bateri?", img:"➕", j:["Positif","Negatif","Salah"], b:0, n:"Terminal positif."},
+        {s:"Wayar perlu dipasang...", img:"🔗", j:["Kemas","Longgar","Putus"], b:0, n:"Sambungan kemas."},
+
+        // Unit 8 (Campuran)
+        {s:"Asing klip kertas & pasir?", img:"🧲", j:["Magnet","Turas","Ayak"], b:0, n:"Guna magnet."},
+        {s:"Asing tepung & batu?", img:"🥘", j:["Ayak","Magnet","Apung"], b:0, n:"Mengayak."},
+        {s:"Asing daun di air?", img:"🍂", j:["Apung","Magnet","Turas"], b:0, n:"Mengapung."},
+        {s:"Asing lumpur & air?", img:"💧", j:["Turas","Magnet","Ayak"], b:0, n:"Menuras."},
+        {s:"Larut cepat jika air...", img:"☕", j:["Panas","Sejuk","Ais"], b:0, n:"Air panas."},
+        {s:"Larut cepat jika...", img:"🥄", j:["Diaduk","Dibiarkan","Tidur"], b:0, n:"Kacau/Aduk."},
+        {s:"Saiz bahan larut cepat?", img:"🧂", j:["Halus","Besar","Ketul"], b:0, n:"Saiz kecil."},
+        {s:"Menyisih untuk...", img:"🤏", j:["Bahan besar","Cecair","Halus"], b:0, n:"Kutip satu-satu."},
+        {s:"Gula larut dalam...", img:"🥤", j:["Air","Minyak","Batu"], b:0, n:"Air pelarut."},
+        {s:"Batu dalam air akan...", img:"🪨", j:["Tenggelam","Terapung","Larut"], b:0, n:"Tenggelam."},
+
+        // Unit 9 (Bumi)
+        {s:"Sumber air semulajadi?", img:"🌧️", j:["Hujan","Paip","Tangki"], b:0, n:"Hujan/Sungai."},
+        {s:"Air mengalir dari...", img:"↘️", j:["Tinggi ke rendah","Rendah ke tinggi","Atas"], b:0, n:"Tinggi ke rendah."},
+        {s:"Udara bergerak ialah...", img:"🌬️", j:["Angin","Wap","Gas"], b:0, n:"Angin."},
+        {s:"Gas untuk bernafas?", img:"🫁", j:["Oksigen","Asap","Warna"], b:0, n:"Oksigen."},
+        {s:"Kebaikan angin?", img:"⛵", j:["Gerak kapal layar","Roboh rumah","Banjir"], b:0, n:"Gerakkan layar."},
+        {s:"Keburukan angin kencang?", img:"🌊", j:["Ombak besar","Nyaman","Sejuk"], b:0, n:"Bahaya/Kerosakan."},
+        {s:"Wap air menjadi...", img:"☁️", j:["Awan","Batu","Tanah"], b:0, n:"Awan."},
+        {s:"Sungai mengalir ke...", img:"🌊", j:["Laut","Bukit","Langit"], b:0, n:"Ke laut."},
+        {s:"Hujan turun dari...", img:"🌨️", j:["Awan","Bulan","Matahari"], b:0, n:"Awan."},
+        {s:"Perlu udara untuk...", img:"🧘", j:["Bernafas","Makan","Mandi"], b:0, n:"Bernafas."},
+
+        // Unit 10 (Teknologi)
+        {s:"Pasang set binaan rujuk...", img:"📖", j:["Manual","Buku cerita","TV"], b:0, n:"Manual bergambar."},
+        {s:"Set binaan ada pelbagai...", img:"🟥", j:["Bentuk/Warna","Rasa","Bunyi"], b:0, n:"Bentuk & Warna."},
+        {s:"Bentuk komponen?", img:"🧊", j:["Kiub/Prisma","Kertas","Kain"], b:0, n:"Kiub, Prisma."},
+        {s:"Jika komponen hilang?", img:"🧩", j:["Tak lengkap","Siap","Cantik"], b:0, n:"Model tak siap."},
+        {s:"Simpan komponen di...", img:"📦", j:["Kotak set","Beg","Lantai"], b:0, n:"Kotak asal."},
+        {s:"Lepas guna, perlu...", img:"🛠️", j:["Buka & Simpan","Buang","Biarkan"], b:0, n:"Buka dulu."},
+        {s:"Manual ialah...", img:"📄", j:["Panduan pasang","Cerita","Lagu"], b:0, n:"Panduan."},
+        {s:"Boleh bina model lain?", img:"🏰", j:["Boleh","Tidak","Salah"], b:0, n:"Ikut kreativiti."},
+        {s:"Pastikan komponen...", img:"✅", j:["Cukup","Kurang","Rosak"], b:0, n:"Mencukupi."},
+        {s:"Jaga komponen dengan...", img:"❤️", j:["Cermat","Kasar","Pijak"], b:0, n:"Cermat."}
     ];
 
     let questions = [];
@@ -263,13 +320,13 @@ document.addEventListener("DOMContentLoaded", function() {
     let timer;
     let timeLeft = 100;
 
-    // --- FUNGSI MULA ---
+    // --- FUNGSI UTAMA ---
     window.initGame = function() {
         score = 0;
         currentIdx = 0;
         lives = 3;
         
-        // 1. Acak Soalan (Soalan tak ikut urutan)
+        // Kocok Soalan
         questions = [...db].sort(() => Math.random() - 0.5).slice(0, 15);
         
         updateUI();
@@ -288,31 +345,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
         const q = questions[currentIdx];
         
-        // UI Text
+        // Papar Soalan
         document.getElementById('q-text').innerText = q.s;
         document.getElementById('feedback').innerText = "";
         
-        // --- RAHSIA FIX: ACAK JAWAPAN ---
+        // --- LOGIK VISUAL (Gambar atau Emoji) ---
+        const visualBox = document.getElementById('q-visual');
+        visualBox.innerHTML = ""; // Kosongkan
+        
+        if (q.img.includes("/") || q.img.includes(".")) {
+            // Jika ia URL gambar (ada titik atau slash)
+            let imgEl = document.createElement('img');
+            imgEl.src = q.img;
+            imgEl.className = "visual-img";
+            visualBox.appendChild(imgEl);
+        } else {
+            // Jika ia Emoji
+            let spanEl = document.createElement('span');
+            spanEl.innerText = q.img;
+            spanEl.className = "visual-emoji";
+            visualBox.appendChild(spanEl);
+        }
+
+        // --- ACAK JAWAPAN ---
         const container = document.getElementById('opt-container');
         container.innerHTML = "";
         
-        // Kita cipta array objek sementara untuk pegang jawapan & status betul/salah
         let options = q.j.map((text, index) => {
-            return {
-                txt: text,
-                isCorrect: (index === q.b) // Semak jika index ini adalah jawapan betul
-            };
+            return { txt: text, isCorrect: (index === q.b) };
         });
 
-        // Kocok array jawapan ini!
         options.sort(() => Math.random() - 0.5);
 
-        // Paparkan butang berdasarkan susunan baru yang rawak
         options.forEach(opt => {
             let btn = document.createElement('button');
             btn.className = 'btn-opt';
             btn.innerText = opt.txt;
-            // Hantar status betul/salah (true/false) terus ke fungsi semak
             btn.onclick = () => checkAnswer(opt.isCorrect, q.n, btn);
             container.appendChild(btn);
         });
@@ -322,25 +390,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function checkAnswer(isCorrect, note, btn) {
         clearInterval(timer);
-        
-        // Matikan semua butang
         const btns = document.querySelectorAll('.btn-opt');
         btns.forEach(b => b.disabled = true);
 
         if(isCorrect) {
             btn.classList.add('correct');
-            score += 10 + Math.ceil(timeLeft/10); // Bonus masa
+            score += 10 + Math.ceil(timeLeft/10);
             document.getElementById('feedback').innerHTML = "<span style='color:green'>✅ Betul! " + note + "</span>";
         } else {
             btn.classList.add('wrong');
             lives--;
             document.getElementById('feedback').innerHTML = "<span style='color:red'>❌ Salah. " + note + "</span>";
-            
-            // Cari butang yang betul dan warnakan hijau (Manual Search)
-            // Kerana kita dah shuffle, kita tak boleh guna index asal.
-            // Kita kena cari butang yang ada text jawapan betul, TAPI
-            // cara paling mudah ialah dalam loop di atas tadi, kita boleh simpan mana betul.
-            // Untuk simple fix: pengguna nampak nota jawapan.
         }
 
         updateUI();
@@ -363,7 +423,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 clearInterval(timer);
                 handleTimeout();
             }
-        }, 50); // 10 saat per soalan
+        }, 50);
     }
 
     function handleTimeout() {
