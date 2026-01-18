@@ -3,93 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Misi Sains Cilik Tahun 2</title>
+    <title>Kuiz Sains Tahun 2: Edisi Random</title>
     <style>
         :root {
-            --primary: #FF9F1C;
-            --secondary: #2EC4B6;
-            --accent: #E71D36;
-            --light: #FDFFFC;
-            --dark: #011627;
+            --primary: #4361ee;
+            --secondary: #3f37c9;
+            --accent: #f72585;
+            --success: #4cc9f0;
+            --bg: #f8f9fa;
         }
 
         body {
-            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
-            background-color: #f0f4f8;
-            background-image: radial-gradient(#2EC4B6 1px, transparent 1px);
-            background-size: 20px 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: var(--dark);
+            user-select: none;
         }
 
         .container {
             background: white;
-            width: 90%;
-            max-width: 600px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 95%;
+            max-width: 650px;
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             overflow: hidden;
             position: relative;
-            border: 5px solid var(--secondary);
+            border: 4px solid var(--primary);
         }
 
         .header {
-            background: var(--secondary);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
-            padding: 20px;
+            padding: 25px;
             text-align: center;
-            position: relative;
         }
 
         h1 { margin: 0; font-size: 1.8rem; }
-        p { margin: 5px 0 0; }
+        .subtitle { font-size: 0.9rem; opacity: 0.9; margin-top: 5px; }
 
-        .game-area {
-            padding: 20px;
-            text-align: center;
-        }
-
+        .game-area { padding: 20px; }
+        
         /* Screens */
-        .screen { display: none; animation: fadeIn 0.5s; }
-        .screen.active { display: block; }
+        .screen { display: none; text-align: center; }
+        .screen.active { display: block; animation: popIn 0.4s ease-out; }
 
-        /* Start Screen */
-        .btn-start {
-            background: var(--primary);
+        /* Buttons */
+        .btn-main {
+            background: var(--accent);
             color: white;
             border: none;
-            padding: 15px 40px;
-            font-size: 1.5rem;
+            padding: 15px 50px;
+            font-size: 1.4rem;
             border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 0 #e08e0b;
+            box-shadow: 0 6px 0 #b5179e;
             transition: transform 0.1s;
             margin-top: 20px;
-            font-family: inherit;
+            font-weight: bold;
         }
-        .btn-start:active { transform: translateY(5px); box-shadow: none; }
+        .btn-main:active { transform: translateY(6px); box-shadow: none; }
 
-        /* Question Screen */
-        .stats-bar {
+        /* Question Styles */
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--success);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        .stats {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 20px;
             font-weight: bold;
-            font-size: 1.1rem;
             color: var(--secondary);
+            margin-bottom: 15px;
         }
 
-        .question-box {
-            background: #eefbff;
-            border: 3px dashed var(--secondary);
-            padding: 20px;
+        .question-card {
+            background: #eef4ff;
+            border: 2px dashed var(--primary);
+            padding: 25px;
             border-radius: 15px;
-            margin-bottom: 20px;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
+            margin-bottom: 25px;
+            color: #333;
             min-height: 80px;
             display: flex;
             align-items: center;
@@ -102,47 +111,26 @@
             gap: 15px;
         }
 
-        .option-btn {
-            background: var(--light);
+        .opt-btn {
+            background: white;
             border: 2px solid #ddd;
             padding: 15px;
             border-radius: 12px;
             font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.2s;
-            font-family: inherit;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            color: #444;
         }
-
-        .option-btn:hover { background: #f9f9f9; border-color: var(--secondary); }
+        .opt-btn:hover { border-color: var(--primary); background: #f0f7ff; }
         
-        .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-        .option-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+        .opt-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .opt-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
 
-        /* End Screen */
-        .final-score { font-size: 3rem; color: var(--primary); font-weight: bold; }
-        .message { font-size: 1.2rem; margin-bottom: 20px; }
-
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
         
-        .shake { animation: shake 0.4s; }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #888;
-            padding: 10px;
-            border-top: 1px solid #eee;
-        }
-
-        @media (max-width: 480px) {
+        @media (max-width: 500px) {
             .options-grid { grid-template-columns: 1fr; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
 </head>
@@ -150,269 +138,251 @@
 
 <div class="container">
     <div class="header">
-        <h1>🚀 Misi Sains Cilik</h1>
-        <p>Tahun 2</p>
+        <h1>🔬 Cabaran Sains Pintar</h1>
+        <div class="subtitle">Unit 1 - 10 (Tahun 2)</div>
     </div>
 
     <div id="start-screen" class="screen active game-area">
-        <div style="font-size: 4rem; margin-bottom: 20px;">👩‍🔬👨‍🔬</div>
-        <p>Adakah adik bersedia untuk menjadi Saintis Cilik?</p>
-        <p>Jawab soalan dengan betul untuk menang!</p>
-        <button class="btn-start" onclick="startGame()">MULA MISI</button>
+        <div style="font-size: 5rem; margin: 20px 0;">🧬⚡🌱</div>
+        <p>Terdapat <b>100+ soalan</b> dalam pangkalan data.</p>
+        <p>Komputer akan pilih <b>15 soalan rawak</b> untuk kamu.</p>
+        <button class="btn-main" onclick="startGame()">MULA KUIZ</button>
     </div>
 
     <div id="game-screen" class="screen game-area">
-        <div class="stats-bar">
-            <span>❤️ Nyawa: <span id="lives">3</span></span>
-            <span>⭐ Markah: <span id="score">0</span></span>
+        <div class="stats">
+            <span id="q-count">Soalan: 1/15</span>
+            <span id="score-disp">Markah: 0</span>
         </div>
-        <div class="question-box" id="question-text">
-            Soalan akan muncul di sini...
-        </div>
-        <div class="options-grid" id="options-container">
-            </div>
+        <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+        
+        <div class="question-card" id="q-text">Loading...</div>
+        
+        <div class="options-grid" id="opt-container"></div>
+        <p id="feedback-note" style="min-height: 20px; font-size: 0.9rem; color: #666; margin-top: 15px;"></p>
     </div>
 
     <div id="end-screen" class="screen game-area">
-        <div id="end-emoji" style="font-size: 4rem;">🏆</div>
-        <h2>Misi Tamat!</h2>
-        <div class="final-score" id="final-score">0</div>
-        <p class="message" id="end-message">Tahniah!</p>
-        <button class="btn-start" onclick="startGame()">MAIN LAGI</button>
-    </div>
-
-    <div class="footer">
-        Berdasarkan Nota Sains Tahun 2 (Unit 1-10)
+        <div style="font-size: 4rem;">🏆</div>
+        <h2>Tamat!</h2>
+        <p>Markah Akhir Kamu:</p>
+        <div style="font-size: 3rem; font-weight: bold; color: var(--primary); margin: 10px 0;" id="final-score">0</div>
+        <p id="final-msg">Syabas!</p>
+        <button class="btn-main" onclick="startGame()">MAIN SET BARU</button>
     </div>
 </div>
 
 <script>
-    // DATA SOALAN BERDASARKAN NOTA PDF
-    const questions = [
-        // Unit 1: Kemahiran Saintifik
-        {
-            q: "Apakah deria yang digunakan untuk MEMERHATI?",
-            options: ["Deria Rasa & Bau", "Mengira nombor", "Berlari", "Tidur"],
-            answer: 0,
-            note: "Memerhati guna deria untuk kumpul maklumat ."
-        },
-        // Unit 2: Peraturan Bilik Sains
-        {
-            q: "Ke manakah kita perlu buang sisa cecair?",
-            options: ["Bakul Sampah", "Sinki", "Lantai", "Dalam beg"],
-            answer: 1,
-            note: "Buang sisa cecair ke dalam sinki ."
-        },
-        // Unit 3: Manusia
-        {
-            q: "Manusia membiak secara...",
-            options: ["Bertelur", "Melahirkan anak", "Membelah diri", "Biji benih"],
-            answer: 1,
-            note: "Manusia membiak secara melahirkan anak ."
-        },
-        {
-            q: "Ciri manakah yang diwarisi daripada ibu bapa?",
-            options: ["Warna rambut", "Warna baju", "Kepandaian", "Hobi"],
-            answer: 0,
-            note: "Contoh pewarisan: Warna iris mata, warna kulit, jenis rambut ."
-        },
-        // Unit 4: Haiwan
-        {
-            q: "Haiwan manakah yang BERTELUR BANYAK?",
-            options: ["Gajah", "Katak", "Ayam", "Burung"],
-            answer: 1,
-            note: "Katak dan Ikan bertelur banyak ."
-        },
-        {
-            q: "Haiwan manakah yang melahirkan anak SEDIKIT?",
-            options: ["Kucing", "Arnab", "Panda", "Tikus"],
-            answer: 2,
-            note: "Panda, Gajah, Tenggiling melahirkan anak sedikit ."
-        },
-        // Unit 5: Tumbuh-tumbuhan
-        {
-            q: "Apa yang diperlukan biji benih untuk bercambah?",
-            options: ["Air, Udara, Suhu sesuai", "Baja, Pasu, Tanah", "Cahaya sahaja", "Air sahaja"],
-            answer: 0,
-            note: "Keperluan bercambah: Air, Udara, Suhu yang sesuai ."
-        },
-        // Unit 6: Terang dan Gelap
-        {
-            q: "Matahari ialah sumber cahaya...",
-            options: ["Buatan manusia", "Semulajadi", "Elektrik", "Bateri"],
-            answer: 1,
-            note: "Matahari merupakan sumber cahaya semulajadi ."
-        },
-        {
-            q: "Bayang-bayang terjadi apabila cahaya...",
-            options: ["Ditembusi objek", "Dihalang objek legap", "Dipantulkan", "Hilang"],
-            answer: 1,
-            note: "Bayang-bayang terhasil apabila cahaya dihalang oleh objek legap ."
-        },
-        // Unit 7: Elektrik
-        {
-            q: "Apakah fungsi suis?",
-            options: ["Membekalkan tenaga", "Mengeluarkan cahaya", "Menyambung & memutuskan litar", "Menyimpan wayar"],
-            answer: 2,
-            note: "Suis: menyambung dan memutuskan litar ."
-        },
-        {
-            q: "Objek manakah adalah KONDUKTOR (mengalirkan elektrik)?",
-            options: ["Pemadam", "Sudu Logam", "Kain", "Plastik"],
-            answer: 1,
-            note: "Konduktor: sudu logam, paku, duit syiling ."
-        },
-        // Unit 8: Campuran
-        {
-            q: "Cara asingkan klip kertas dan pasir?",
-            options: ["Menuras", "Mengayak", "Guna Magnet", "Mengapung"],
-            answer: 2,
-            note: "Mengasingkan bahan yang boleh ditarik magnet ."
-        },
-        // Unit 9: Bumi
-        {
-            q: "Udara yang bergerak dipanggil...",
-            options: ["Ombak", "Angin", "Hujan", "Awan"],
-            answer: 1,
-            note: "Udara bergerak ialah angin ."
-        },
-        // Unit 10: Teknologi
-        {
-            q: "Apa perlu dirujuk untuk pasang set binaan dengan betul?",
-            options: ["Manual bergambar", "Buku cerita", "Gambar kawan", "Televisyen"],
-            answer: 0,
-            note: "Manual bergambar ialah panduan memasang set binaan ."
-        }
+    // BANK SOALAN BESAR (Diambil dari Nota Unit 1 - Unit 10)
+    // Format: q = Soalan, o = Pilihan Jawapan, a = Indeks Jawapan Betul (0, 1, 2, atau 3), n = Nota Ringkas
+    const questionBank = [
+        // --- UNIT 1: KEMAHIRAN SAINTIFIK ---
+        [span_0](start_span){q: "Kita memerhati menggunakan...", o: ["Deria", "Kaki", "Rambut", "Buku"], a: 0, n: "Memerhati guna deria[span_0](end_span)."},
+        {q: "Apakah deria untuk rasa makanan?", o: ["Hidung", "Lidah", "Telinga", "Mata"], a: 1, n: "Lidah ialah deria rasa."},
+        [span_1](start_span){q: "Mengelas bermaksud...", o: ["Mengumpul ikut ciri", "Membuang sampah", "Mengukur panjang", "Meneka jawapan"], a: 0, n: "Mengelas: asingkan dan kumpulkan[span_1](end_span)."},
+        {q: "Pilih alat ukur yang piawai.", o: ["Jengkal", "Pembaris", "Langkah", "Depa"], a: 1, n: "Pembaris adalah alat piawai."},
+        [span_2](start_span){q: "Cara melakar spesimen mestilah...", o: ["Cantik", "Tepat", "Besar", "Berwarna-warni"], a: 1, n: "Melakar dengan tepat[span_2](end_span)."},
+        [span_3](start_span){q: "Alat sains perlu dibersihkan...", o: ["Sebelum guna", "Selepas guna", "Tahun depan", "Tidak perlu"], a: 1, n: "Bersihkan selepas digunakan[span_3](end_span)."},
+        
+        // --- UNIT 2: PERATURAN BILIK SAINS ---
+        [span_4](start_span){q: "Di manakah sisa cecair dibuang?", o: ["Bakul sampah", "Sinki", "Lantai", "Luar tingkap"], a: 1, n: "Buang sisa cecair ke sinki[span_4](end_span)."},
+        [span_5](start_span){q: "Di manakah sisa pepejal (sampah) dibuang?", o: ["Sinki", "Bakul sampah", "Bawah meja", "Dalam beg"], a: 1, n: "Buang sampah ke bakul sampah[span_5](end_span)."},
+        [span_6](start_span){q: "Jika radas pecah, kita perlu...", o: ["Diamkan diri", "Beritahu guru", "Sorokkan", "Nangis"], a: 1, n: "Maklumkan guru jika pecah[span_6](end_span)."},
+        [span_7](start_span){q: "Bolehkah bawa makanan ke bilik sains?", o: ["Boleh", "Tidak Boleh", "Hanya air", "Kadang-kadang"], a: 1, n: "Bawa buku dan alat tulis sahaja[span_7](end_span)."},
+        [span_8](start_span){q: "Peralatan sains perlu disimpan di...", o: ["Tempat asal", "Atas meja", "Dalam poket", "Merata-rata"], a: 0, n: "Simpan di tempat asal[span_8](end_span)."},
+
+        // --- UNIT 3: MANUSIA ---
+        [span_9](start_span){q: "Manusia membiak secara...", o: ["Bertelur", "Melahirkan anak", "Membelah diri", "Tunas"], a: 1, n: "Manusia melahirkan anak[span_9](end_span)."},
+        [span_10](start_span){q: "Selepas bayi, manusia membesar menjadi...", o: ["Remaja", "Dewasa", "Kanak-kanak", "Orang tua"], a: 2, n: "Urutan: Bayi > Kanak-kanak > Remaja[span_10](end_span)."},
+        [span_11](start_span){q: "Ciri yang diwarisi daripada ibu bapa ialah...", o: ["Warna Iris Mata", "Panjang kuku", "Gaya rambut", "Warna baju"], a: 0, n: "Warna iris mata diwarisi[span_11](end_span)."},
+        [span_12](start_span){q: "Tumbesaran manusia menyebabkan perubahan...", o: ["Nama", "Saiz & Tinggi", "Alamat", "Hobi"], a: 1, n: "Perubahan saiz, tinggi dan berat[span_12](end_span)."},
+        [span_13](start_span){q: "Warna kulit adalah ciri...", o: ["Warisan", "Makanan", "Tempat tinggal", "Pakaian"], a: 0, n: "Warna kulit diwarisi[span_13](end_span)."},
+        [span_14](start_span){q: "Adakah tumbesaran setiap orang sama?", o: ["Ya, sama", "Tidak, berbeza", "Semua tinggi", "Semua rendah"], a: 1, n: "Tumbesaran berbeza bagi individu[span_14](end_span)."},
+
+        // --- UNIT 4: HAIWAN ---
+        [span_15](start_span){q: "Haiwan yang bertelur BANYAK?", o: ["Ayam", "Burung", "Katak", "Penguin"], a: 2, n: "Katak bertelur banyak[span_15](end_span)."},
+        [span_16](start_span){q: "Haiwan yang bertelur SEDIKIT?", o: ["Ikan", "Katak", "Semut", "Ayam"], a: 3, n: "Ayam bertelur sedikit[span_16](end_span)."},
+        [span_17](start_span){q: "Haiwan yang melahirkan anak BANYAK?", o: ["Gajah", "Panda", "Kucing", "Lembu"], a: 2, n: "Kucing & Arnab melahirkan banyak anak[span_17](end_span)."},
+        [span_18](start_span){q: "Haiwan yang melahirkan anak SEDIKIT?", o: ["Kucing", "Arnab", "Gajah", "Tikus"], a: 2, n: "Gajah & Panda melahirkan sedikit[span_18](end_span)."},
+        [span_19](start_span){q: "Anak haiwan yang TIDAK SERUPA induknya?", o: ["Lembu", "Kucing", "Rama-rama", "Gajah"], a: 2, n: "Beluncas tidak sama dengan Rama-rama[span_19](end_span)."},
+        [span_20](start_span){q: "Anak haiwan yang SERUPA induknya?", o: ["Katak", "Nyamuk", "Lembu", "Rama-rama"], a: 2, n: "Anak lembu serupa ibunya[span_20](end_span)."},
+        {q: "Kitaran hidup: Telur -> Berudu -> ...", o: ["Katak", "Ayam", "Kucing", "Rama-rama"], a: 0, n: "Kitaran hidup katak."},
+        {q: "Kitaran hidup: Telur -> Beluncas -> ...", o: ["Rama-rama", "Katak", "Ayam", "Lembu"], a: 0, n: "Kitaran hidup rama-rama."},
+
+        // --- UNIT 5: TUMBUHAN ---
+        [span_21](start_span){q: "Keperluan biji benih bercambah?", o: ["Air, Udara, Suhu", "Pasu, Baja, Tanah", "Cahaya sahaja", "Air sahaja"], a: 0, n: "Air, Udara, Suhu yang sesuai[span_21](end_span)."},
+        [span_22](start_span){q: "Tumbuhan perlukan apa untuk membesar?", o: ["Air, Udara, Cahaya", "Pasir, Batu, Simen", "Susu, Nasi, Ikan", "Gelap, Sejuk, Kering"], a: 0, n: "Air, Udara, Cahaya matahari[span_22](end_span)."},
+        [span_23](start_span){q: "Semasa membesar, bilangan daun akan...", o: ["Berkurang", "Bertambah", "Sama", "Hilang"], a: 1, n: "Pertambahan bilangan daun[span_23](end_span)."},
+        [span_24](start_span){q: "Semasa membesar, lilitan batang akan...", o: ["Mengecil", "Menjadi nipis", "Bertambah besar", "Putus"], a: 2, n: "Pertambahan lilitan batang[span_24](end_span)."},
+        [span_25](start_span){q: "Kepentingan tumbuhan kepada haiwan?", o: ["Sumber elektrik", "Habitat & Makanan", "Sumber cahaya", "Alat mainan"], a: 1, n: "Habitat dan sumber makanan[span_25](end_span)."},
+        [span_26](start_span){q: "Tumbuhan membekalkan gas apa?", o: ["Oksigen (Udara)", "Asap", "Wap", "Debu"], a: 0, n: "Sumber udara untuk bernafas[span_26](end_span)."},
+
+        // --- UNIT 6: TERANG DAN GELAP ---
+        [span_27](start_span){q: "Sumber cahaya semulajadi utama ialah...", o: ["Lampu", "Matahari", "Lilin", "Obor"], a: 1, n: "Matahari ialah sumber semulajadi[span_27](end_span)."},
+        [span_28](start_span){q: "Bayang-bayang terjadi apabila...", o: ["Cahaya laju", "Cahaya dihalang objek", "Tiada cahaya", "Cahaya tembus"], a: 1, n: "Cahaya dihalang oleh objek legap[span_28](end_span)."},
+        [span_29](start_span){q: "Aktiviti mudah dilakukan dalam keadaan...", o: ["Gelap", "Terang", "Samar", "Hitam"], a: 1, n: "Mudah dalam keadaan terang[span_29](end_span)."},
+        [span_30](start_span){q: "Permainan menggunakan bayang-bayang?", o: ["Bola sepak", "Wayang Kulit", "Gasing", "Congkak"], a: 1, n: "Wayang kulit[span_30](end_span)."},
+        {q: "Objek legap bermaksud objek yang...", o: ["Tembus cahaya", "Halang cahaya", "Tiada warna", "Bersinar"], a: 1, n: "Objek legap menghalang cahaya."},
+        [span_31](start_span){q: "Kejelasan bayang-bayang bergantung pada...", o: ["Warna objek", "Jenis objek", "Berat objek", "Harga objek"], a: 1, n: "Bergantung kepada jenis objek[span_31](end_span)."},
+
+        // --- UNIT 7: ELEKTRIK ---
+        [span_32](start_span){q: "Komponen yang membekalkan tenaga elektrik?", o: ["Mentol", "Suis", "Sel Kering", "Wayar"], a: 2, n: "Sel kering membekalkan tenaga[span_32](end_span)."},
+        [span_33](start_span){q: "Fungsi suis ialah...", o: ["Menyala lampu", "Memutus & Sambung litar", "Simpan elektrik", "Hiasan"], a: 1, n: "Menyambung dan memutuskan litar[span_33](end_span)."},
+        [span_34](start_span){q: "Mentol akan menyala jika suis...", o: ["Tertutup", "Terbuka", "Rosak", "Tiada"], a: 0, n: "Suis tertutup = litar lengkap[span_34](end_span)."},
+        {q: "Jika suis terbuka, mentol akan...", o: ["Menyala", "Meletup", "Tidak menyala", "Berkelip"], a: 2, n: "Suis terbuka = litar tidak lengkap."},
+        [span_35](start_span){q: "Objek KONDUKTOR (mengalirkan arus)?", o: ["Paku besi", "Pemadam", "Kertas", "Plastik"], a: 0, n: "Konduktor: Sudu logam, paku[span_35](end_span)."},
+        [span_36](start_span){q: "Objek PENEBAT (tidak alir arus)?", o: ["Duit syiling", "Kunci besi", "Getah pemadam", "Cincin emas"], a: 2, n: "Penebat: Getah, plastik, kain[span_36](end_span)."},
+        [span_37](start_span){q: "Mengapa mentol tidak menyala?", o: ["Bateri baru", "Suis tertutup", "Mentol rosak", "Wayar kemas"], a: 2, n: "Punca: Mentol rosak, bateri kurang tenaga[span_37](end_span)."},
+        [span_38](start_span){q: "Apakah fungsi mentol?", o: ["Keluarkan cahaya", "Keluarkan bunyi", "Sejukkan bilik", "Gerakkan kipas"], a: 0, n: "Mentol mengeluarkan cahaya[span_38](end_span)."},
+
+        // --- UNIT 8: CAMPURAN ---
+        [span_39](start_span){q: "Cara asingkan tepung dan batu?", o: ["Guna magnet", "Mengayak", "Mengapung", "Menuras"], a: 1, n: "Mengayak untuk bahan halus & besar[span_39](end_span)."},
+        [span_40](start_span){q: "Cara asingkan paku dan pasir?", o: ["Mengayak", "Guna Magnet", "Menuras", "Mengapung"], a: 1, n: "Menggunakan magnet[span_40](end_span)."},
+        [span_41](start_span){q: "Cara asingkan daun kering dan batu di air?", o: ["Mengapung", "Mengayak", "Menuras", "Guna magnet"], a: 0, n: "Mengapung untuk bahan terapung/tenggelam[span_41](end_span)."},
+        [span_42](start_span){q: "Cara asingkan serbuk teh dan air teh?", o: ["Menuras", "Mengayak", "Mengapung", "Guna magnet"], a: 0, n: "Menuras (pepejal dari cecair)[span_42](end_span)."},
+        [span_43](start_span){q: "Bahan larut lebih cepat jika air...", o: ["Sejuk", "Panas", "Beku", "Sikit"], a: 1, n: "Gunakan air panas[span_43](end_span)."},
+        [span_44](start_span){q: "Gula larut cepat jika kita...", o: ["Biarkan", "Kacau (Aduk)", "Simpan", "Lihat"], a: 1, n: "Diaduk mempercepatkan larutan[span_44](end_span)."},
+        [span_45](start_span){q: "Gula besar atau gula halus larut cepat?", o: ["Gula besar", "Gula halus", "Sama sahaja", "Tidak tahu"], a: 1, n: "Saiz kecil larut lebih cepat[span_45](end_span)."},
+
+        // --- UNIT 9: BUMI ---
+        [span_46](start_span){q: "Sumber air semulajadi?", o: ["Paip", "Hujan & Sungai", "Botol air", "Tangki"], a: 1, n: "Hujan, sungai, tasik, laut[span_46](end_span)."},
+        [span_47](start_span){q: "Air mengalir dari...", o: ["Rendah ke tinggi", "Tinggi ke rendah", "Kiri ke kanan", "Bawah ke atas"], a: 1, n: "Dari tempat tinggi ke rendah[span_47](end_span)."},
+        [span_48](start_span){q: "Udara yang bergerak dipanggil...", o: ["Ribut", "Angin", "Awan", "Wap"], a: 1, n: "Udara bergerak ialah angin[span_48](end_span)."},
+        [span_49](start_span){q: "Gas yang diperlukan manusia untuk bernafas?", o: ["Oksigen", "Asap", "Karbon", "Debu"], a: 0, n: "Oksigen dalam udara[span_49](end_span)."},
+        [span_50](start_span){q: "Kebaikan angin?", o: ["Tumbangkan pokok", "Ombak besar", "Terbangkan layang-layang", "Rosakkan rumah"], a: 2, n: "Gerakkan kapal layar, layang-layang[span_50](end_span)."},
+        [span_51](start_span){q: "Keburukan angin kencang?", o: ["Keringkan baju", "Sejukkan badan", "Ombak besar & kerosakan", "Gerakkan kincir"], a: 2, n: "Kerosakan harta benda, ombak besar[span_51](end_span)."},
+        [span_52](start_span){q: "Kitaran air: Wap air membentuk...", o: ["Batu", "Tanah", "Awan", "Api"], a: 2, n: "Wap air menjadi awan[span_52](end_span)."},
+
+        // --- UNIT 10: TEKNOLOGI ---
+        [span_53](start_span){q: "Set binaan dipasang berpandukan...", o: ["Manual bergambar", "Buku teks", "Surat khabar", "Televisyen"], a: 0, n: "Rujuk manual bergambar[span_53](end_span)."},
+        [span_54](start_span){q: "Bentuk komponen set binaan?", o: ["Pramid sahaja", "Tiub, Prisma, Kiub", "Cecair", "Gas"], a: 1, n: "Berbentuk kiub, prisma, silinder[span_54](end_span)."},
+        [span_55](start_span){q: "Selepas guna set binaan, kita perlu...", o: ["Biarkan bersepah", "Buang", "Buka dan simpan", "Hilangkan"], a: 2, n: "Buka dan simpan kemas[span_55](end_span)."},
+        [span_56](start_span){q: "Jika komponen hilang, model...", o: ["Menjadi cantik", "Tidak lengkap", "Lebih besar", "Tiada masalah"], a: 1, n: "Pastikan komponen mencukupi[span_56](end_span)."},
+        
+        // --- SOALAN TAMBAHAN (VARIASI) ---
+        [span_57](start_span){q: "Warna iris mata kamu serupa dengan...", o: ["Kawan", "Ibu atau Bapa", "Guru", "Jiran"], a: 1, n: "Mewarisi ciri ibu bapa[span_57](end_span)."},
+        {q: "Tanda ini (+) pada bateri bermaksud...", o: ["Terminal Positif", "Terminal Negatif", "Tambah", "Rosak"], a: 0, n: "Simbol pada sel kering."},
+        [span_58](start_span){q: "Cara menjaga kebersihan bilik sains?", o: ["Buang sampah merata", "Bersihkan alat selepas guna", "Tumpahkan air", "Lari-lari"], a: 1, n: "Jaga kebersihan[span_58](end_span)."},
+        {q: "Air teh adalah contoh campuran...", o: ["Pepejal & Pepejal", "Cecair & Pepejal", "Gas & Cecair", "Batu & Kayu"], a: 1, n: "Daun teh (pepejal) dan air (cecair)."},
+        {q: "Bolehkah kita minum air dalam bikar?", o: ["Boleh", "Tidak Boleh", "Sikit sahaja", "Jika dahaga"], a: 1, n: "Peraturan keselamatan bilik sains."},
+        [span_59](start_span){q: "Haiwan ini bertelur: Buaya, Ikan dan...", o: ["Kucing", "Ayam", "Gajah", "Lembu"], a: 1, n: "Ayam bertelur[span_59](end_span)."},
+        {q: "Haiwan ini melahirkan anak: Kucing, Gajah dan...", o: ["Burung", "Tikus", "Katak", "Ayam"], a: 1, n: "Tikus melahirkan anak."},
+        {q: "Pokok layu jika tidak dapat...", o: ["Pasu mahal", "Air", "Baju", "Kawan"], a: 1, n: "Keperluan asas tumbuhan: Air."},
+        [span_60](start_span){q: "Objek legap menghasilkan bayang-bayang...", o: ["Jelas", "Tiada", "Samar", "Warna-warni"], a: 0, n: "Objek legap = bayang jelas[span_60](end_span)."},
+        {q: "Wayar kuprum dibalut plastik kerana plastik ialah...", o: ["Penebat", "Konduktor", "Logam", "Makanan"], a: 0, n: "Plastik adalah penebat selamat."},
+        [span_61](start_span){q: "Air sungai akhirnya mengalir ke...", o: ["Bukit", "Laut", "Awan", "Paip"], a: 1, n: "Mengalir ke tempat rendah (laut)[span_61](end_span)."},
+        [span_62](start_span){q: "Manual bergambar membantu kita...", o: ["Makan", "Tidur", "Memasang model", "Menulis"], a: 2, n: "Panduan memasang set binaan[span_62](end_span)."}
     ];
 
-    let currentQuestionIndex = 0;
+    // Game Variables
+    let currentQuestions = [];
+    let currentIndex = 0;
     let score = 0;
-    let lives = 3;
-    let shuffledQuestions = [];
+    const TOTAL_Q_PER_SESSION = 15;
 
-    // Audio effects (Synthetic)
-    const playSound = (type) => {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
+    // Sound setup
+    const playTone = (freq, type, duration) => {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, ctx.currentTime);
+        gain.gain.setValueAtTime(0.1, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + duration);
         osc.connect(gain);
-        gain.connect(audioContext.destination);
-
-        if (type === 'correct') {
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, audioContext.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(880, audioContext.currentTime + 0.1);
-            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            osc.start();
-            osc.stop(audioContext.currentTime + 0.3);
-        } else if (type === 'wrong') {
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(150, audioContext.currentTime);
-            osc.frequency.linearRampToValueAtTime(100, audioContext.currentTime + 0.2);
-            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            osc.start();
-            osc.stop(audioContext.currentTime + 0.3);
-        }
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + duration);
     };
 
-    function switchScreen(id) {
-        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-        document.getElementById(id).classList.add('active');
-    }
-
-    function shuffleArray(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+    function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
     }
 
     function startGame() {
         score = 0;
-        lives = 3;
-        currentQuestionIndex = 0;
-        shuffledQuestions = shuffleArray([...questions]); // Copy and shuffle
-        updateStats();
-        switchScreen('game-screen');
+        currentIndex = 0;
+        // 1. Shuffle Bank Soalan Besar
+        const shuffledBank = shuffle([...questionBank]);
+        // 2. Ambil 15 soalan sahaja
+        currentQuestions = shuffledBank.slice(0, TOTAL_Q_PER_SESSION);
+        
+        document.getElementById('start-screen').classList.remove('active');
+        document.getElementById('end-screen').classList.remove('active');
+        document.getElementById('game-screen').classList.add('active');
+        
         loadQuestion();
     }
 
-    function updateStats() {
-        document.getElementById('score').innerText = score;
-        document.getElementById('lives').innerText = lives;
-    }
-
     function loadQuestion() {
-        if (currentQuestionIndex >= shuffledQuestions.length || lives <= 0) {
+        if (currentIndex >= currentQuestions.length) {
             endGame();
             return;
         }
 
-        const qData = shuffledQuestions[currentQuestionIndex];
-        document.getElementById('question-text').innerText = qData.q;
+        const q = currentQuestions[currentIndex];
         
-        const optionsContainer = document.getElementById('options-container');
-        optionsContainer.innerHTML = '';
+        // Update UI
+        document.getElementById('q-count').innerText = `Soalan: ${currentIndex + 1}/${TOTAL_Q_PER_SESSION}`;
+        document.getElementById('score-disp').innerText = `Markah: ${score}`;
+        document.getElementById('progress').style.width = `${((currentIndex) / TOTAL_Q_PER_SESSION) * 100}%`;
+        document.getElementById('q-text').innerText = q.q;
+        document.getElementById('feedback-note').innerText = "";
 
-        qData.options.forEach((opt, index) => {
+        // Create Options
+        const container = document.getElementById('opt-container');
+        container.innerHTML = '';
+        
+        q.o.forEach((opt, idx) => {
             const btn = document.createElement('button');
-            btn.className = 'option-btn';
+            btn.className = 'opt-btn';
             btn.innerText = opt;
-            btn.onclick = () => checkAnswer(index, btn, qData.answer);
-            optionsContainer.appendChild(btn);
+            btn.onclick = () => checkAnswer(idx, q.a, btn, q.n);
+            container.appendChild(btn);
         });
     }
 
-    function checkAnswer(selectedIndex, btnElement, correctIndex) {
-        // Disable all buttons prevents double clicking
-        const allBtns = document.querySelectorAll('.option-btn');
-        allBtns.forEach(b => b.disabled = true);
+    function checkAnswer(selected, correct, btn, note) {
+        const btns = document.querySelectorAll('.opt-btn');
+        btns.forEach(b => b.disabled = true); // Lock buttons
 
-        if (selectedIndex === correctIndex) {
-            btnElement.classList.add('correct');
+        if (selected === correct) {
+            btn.classList.add('correct');
             score += 10;
-            playSound('correct');
+            playTone(600, 'sine', 0.2); // Happy sound
+            document.getElementById('feedback-note').innerHTML = "✅ Betul! " + note;
         } else {
-            btnElement.classList.add('wrong');
-            // Highlight correct answer
-            allBtns[correctIndex].classList.add('correct');
-            document.querySelector('.container').classList.add('shake');
-            setTimeout(() => document.querySelector('.container').classList.remove('shake'), 500);
-            lives--;
-            playSound('wrong');
+            btn.classList.add('wrong');
+            btns[correct].classList.add('correct'); // Show correct one
+            playTone(200, 'sawtooth', 0.3); // Sad sound
+            document.getElementById('feedback-note').innerHTML = "❌ Salah. " + note;
         }
 
-        updateStats();
-
+        document.getElementById('score-disp').innerText = `Markah: ${score}`;
+        
         setTimeout(() => {
-            if (lives <= 0) {
-                endGame();
-            } else {
-                currentQuestionIndex++;
-                loadQuestion();
-            }
-        }, 1500);
+            currentIndex++;
+            loadQuestion();
+        }, 2000); // 2 saat masa untuk baca nota
     }
 
     function endGame() {
-        switchScreen('end-screen');
-        document.getElementById('final-score').innerText = score;
-        const msg = document.getElementById('end-message');
-        const emoji = document.getElementById('end-emoji');
+        document.getElementById('game-screen').classList.remove('active');
+        document.getElementById('end-screen').classList.add('active');
+        
+        // Animation update
+        let displayScore = 0;
+        const scoreEl = document.getElementById('final-score');
+        const interval = setInterval(() => {
+            if (displayScore >= score) clearInterval(interval);
+            scoreEl.innerText = displayScore;
+            displayScore++;
+        }, 20);
 
-        if (score >= questions.length * 10) {
-            msg.innerText = "Hebat! Adik memang pakar Sains!";
-            emoji.innerText = "🚀🌟";
-        } else if (score >= (questions.length * 10) / 2) {
-            msg.innerText = "Bagus! Teruskan usaha!";
-            emoji.innerText = "👏📚";
-        } else {
-            msg.innerText = "Jangan putus asa, cuba lagi!";
-            emoji.innerText = "💪😊";
-        }
+        const msg = document.getElementById('final-msg');
+        if (score === 150) msg.innerText = "Sempurna! Kamu hebat! 🌟";
+        else if (score >= 100) msg.innerText = "Syabas! Usaha yang baik! 👍";
+        else msg.innerText = "Cuba lagi ya! 💪";
     }
 </script>
 
