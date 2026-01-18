@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Sains Cilik Tahun 2</title>
+    <style>
+        :root {
+            --primary: #FF9F1C;
+            --secondary: #2EC4B6;
+            --accent: #E71D36;
+            --light: #FDFFFC;
+            --dark: #011627;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #f0f4f8;
+            background-image: radial-gradient(#2EC4B6 1px, transparent 1px);
+            background-size: 20px 20px;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .container {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            border: 5px solid var(--secondary);
+        }
+
+        .header {
+            background: var(--secondary);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 { margin: 0; font-size: 1.8rem; }
+        p { margin: 5px 0 0; }
+
+        .game-area {
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Screens */
+        .screen { display: none; animation: fadeIn 0.5s; }
+        .screen.active { display: block; }
+
+        /* Start Screen */
+        .btn-start {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #e08e0b;
+            transition: transform 0.1s;
+            margin-top: 20px;
+            font-family: inherit;
+        }
+        .btn-start:active { transform: translateY(5px); box-shadow: none; }
+
+        /* Question Screen */
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: var(--secondary);
+        }
+
+        .question-box {
+            background: #eefbff;
+            border: 3px dashed var(--secondary);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: var(--light);
+            border: 2px solid #ddd;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option-btn:hover { background: #f9f9f9; border-color: var(--secondary); }
+        
+        .option-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+        .option-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+
+        /* End Screen */
+        .final-score { font-size: 3rem; color: var(--primary); font-weight: bold; }
+        .message { font-size: 1.2rem; margin-bottom: 20px; }
+
+        /* Animations */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes shake { 0% { transform: translateX(0); } 25% { transform: translateX(-5px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-5px); } 100% { transform: translateX(0); } }
+        
+        .shake { animation: shake 0.4s; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #888;
+            padding: 10px;
+            border-top: 1px solid #eee;
+        }
+
+        @media (max-width: 480px) {
+            .options-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🚀 Misi Sains Cilik</h1>
+        <p>Tahun 2</p>
+    </div>
+
+    <div id="start-screen" class="screen active game-area">
+        <div style="font-size: 4rem; margin-bottom: 20px;">👩‍🔬👨‍🔬</div>
+        <p>Adakah adik bersedia untuk menjadi Saintis Cilik?</p>
+        <p>Jawab soalan dengan betul untuk menang!</p>
+        <button class="btn-start" onclick="startGame()">MULA MISI</button>
+    </div>
+
+    <div id="game-screen" class="screen game-area">
+        <div class="stats-bar">
+            <span>❤️ Nyawa: <span id="lives">3</span></span>
+            <span>⭐ Markah: <span id="score">0</span></span>
+        </div>
+        <div class="question-box" id="question-text">
+            Soalan akan muncul di sini...
+        </div>
+        <div class="options-grid" id="options-container">
+            </div>
+    </div>
+
+    <div id="end-screen" class="screen game-area">
+        <div id="end-emoji" style="font-size: 4rem;">🏆</div>
+        <h2>Misi Tamat!</h2>
+        <div class="final-score" id="final-score">0</div>
+        <p class="message" id="end-message">Tahniah!</p>
+        <button class="btn-start" onclick="startGame()">MAIN LAGI</button>
+    </div>
+
+    <div class="footer">
+        Berdasarkan Nota Sains Tahun 2 (Unit 1-10)
+    </div>
+</div>
+
+<script>
+    // DATA SOALAN BERDASARKAN NOTA PDF
+    const questions = [
+        // Unit 1: Kemahiran Saintifik
+        {
+            q: "Apakah deria yang digunakan untuk MEMERHATI?",
+            options: ["Deria Rasa & Bau", "Mengira nombor", "Berlari", "Tidur"],
+            answer: 0,
+            note: "Memerhati guna deria untuk kumpul maklumat ."
+        },
+        // Unit 2: Peraturan Bilik Sains
+        {
+            q: "Ke manakah kita perlu buang sisa cecair?",
+            options: ["Bakul Sampah", "Sinki", "Lantai", "Dalam beg"],
+            answer: 1,
+            note: "Buang sisa cecair ke dalam sinki ."
+        },
+        // Unit 3: Manusia
+        {
+            q: "Manusia membiak secara...",
+            options: ["Bertelur", "Melahirkan anak", "Membelah diri", "Biji benih"],
+            answer: 1,
+            note: "Manusia membiak secara melahirkan anak ."
+        },
+        {
+            q: "Ciri manakah yang diwarisi daripada ibu bapa?",
+            options: ["Warna rambut", "Warna baju", "Kepandaian", "Hobi"],
+            answer: 0,
+            note: "Contoh pewarisan: Warna iris mata, warna kulit, jenis rambut ."
+        },
+        // Unit 4: Haiwan
+        {
+            q: "Haiwan manakah yang BERTELUR BANYAK?",
+            options: ["Gajah", "Katak", "Ayam", "Burung"],
+            answer: 1,
+            note: "Katak dan Ikan bertelur banyak ."
+        },
+        {
+            q: "Haiwan manakah yang melahirkan anak SEDIKIT?",
+            options: ["Kucing", "Arnab", "Panda", "Tikus"],
+            answer: 2,
+            note: "Panda, Gajah, Tenggiling melahirkan anak sedikit ."
+        },
+        // Unit 5: Tumbuh-tumbuhan
+        {
+            q: "Apa yang diperlukan biji benih untuk bercambah?",
+            options: ["Air, Udara, Suhu sesuai", "Baja, Pasu, Tanah", "Cahaya sahaja", "Air sahaja"],
+            answer: 0,
+            note: "Keperluan bercambah: Air, Udara, Suhu yang sesuai ."
+        },
+        // Unit 6: Terang dan Gelap
+        {
+            q: "Matahari ialah sumber cahaya...",
+            options: ["Buatan manusia", "Semulajadi", "Elektrik", "Bateri"],
+            answer: 1,
+            note: "Matahari merupakan sumber cahaya semulajadi ."
+        },
+        {
+            q: "Bayang-bayang terjadi apabila cahaya...",
+            options: ["Ditembusi objek", "Dihalang objek legap", "Dipantulkan", "Hilang"],
+            answer: 1,
+            note: "Bayang-bayang terhasil apabila cahaya dihalang oleh objek legap ."
+        },
+        // Unit 7: Elektrik
+        {
+            q: "Apakah fungsi suis?",
+            options: ["Membekalkan tenaga", "Mengeluarkan cahaya", "Menyambung & memutuskan litar", "Menyimpan wayar"],
+            answer: 2,
+            note: "Suis: menyambung dan memutuskan litar ."
+        },
+        {
+            q: "Objek manakah adalah KONDUKTOR (mengalirkan elektrik)?",
+            options: ["Pemadam", "Sudu Logam", "Kain", "Plastik"],
+            answer: 1,
+            note: "Konduktor: sudu logam, paku, duit syiling ."
+        },
+        // Unit 8: Campuran
+        {
+            q: "Cara asingkan klip kertas dan pasir?",
+            options: ["Menuras", "Mengayak", "Guna Magnet", "Mengapung"],
+            answer: 2,
+            note: "Mengasingkan bahan yang boleh ditarik magnet ."
+        },
+        // Unit 9: Bumi
+        {
+            q: "Udara yang bergerak dipanggil...",
+            options: ["Ombak", "Angin", "Hujan", "Awan"],
+            answer: 1,
+            note: "Udara bergerak ialah angin ."
+        },
+        // Unit 10: Teknologi
+        {
+            q: "Apa perlu dirujuk untuk pasang set binaan dengan betul?",
+            options: ["Manual bergambar", "Buku cerita", "Gambar kawan", "Televisyen"],
+            answer: 0,
+            note: "Manual bergambar ialah panduan memasang set binaan ."
+        }
+    ];
+
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let lives = 3;
+    let shuffledQuestions = [];
+
+    // Audio effects (Synthetic)
+    const playSound = (type) => {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+        osc.connect(gain);
+        gain.connect(audioContext.destination);
+
+        if (type === 'correct') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(440, audioContext.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(880, audioContext.currentTime + 0.1);
+            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.3);
+        } else if (type === 'wrong') {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(150, audioContext.currentTime);
+            osc.frequency.linearRampToValueAtTime(100, audioContext.currentTime + 0.2);
+            gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            osc.start();
+            osc.stop(audioContext.currentTime + 0.3);
+        }
+    };
+
+    function switchScreen(id) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function startGame() {
+        score = 0;
+        lives = 3;
+        currentQuestionIndex = 0;
+        shuffledQuestions = shuffleArray([...questions]); // Copy and shuffle
+        updateStats();
+        switchScreen('game-screen');
+        loadQuestion();
+    }
+
+    function updateStats() {
+        document.getElementById('score').innerText = score;
+        document.getElementById('lives').innerText = lives;
+    }
+
+    function loadQuestion() {
+        if (currentQuestionIndex >= shuffledQuestions.length || lives <= 0) {
+            endGame();
+            return;
+        }
+
+        const qData = shuffledQuestions[currentQuestionIndex];
+        document.getElementById('question-text').innerText = qData.q;
+        
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        qData.options.forEach((opt, index) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt;
+            btn.onclick = () => checkAnswer(index, btn, qData.answer);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function checkAnswer(selectedIndex, btnElement, correctIndex) {
+        // Disable all buttons prevents double clicking
+        const allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(b => b.disabled = true);
+
+        if (selectedIndex === correctIndex) {
+            btnElement.classList.add('correct');
+            score += 10;
+            playSound('correct');
+        } else {
+            btnElement.classList.add('wrong');
+            // Highlight correct answer
+            allBtns[correctIndex].classList.add('correct');
+            document.querySelector('.container').classList.add('shake');
+            setTimeout(() => document.querySelector('.container').classList.remove('shake'), 500);
+            lives--;
+            playSound('wrong');
+        }
+
+        updateStats();
+
+        setTimeout(() => {
+            if (lives <= 0) {
+                endGame();
+            } else {
+                currentQuestionIndex++;
+                loadQuestion();
+            }
+        }, 1500);
+    }
+
+    function endGame() {
+        switchScreen('end-screen');
+        document.getElementById('final-score').innerText = score;
+        const msg = document.getElementById('end-message');
+        const emoji = document.getElementById('end-emoji');
+
+        if (score >= questions.length * 10) {
+            msg.innerText = "Hebat! Adik memang pakar Sains!";
+            emoji.innerText = "🚀🌟";
+        } else if (score >= (questions.length * 10) / 2) {
+            msg.innerText = "Bagus! Teruskan usaha!";
+            emoji.innerText = "👏📚";
+        } else {
+            msg.innerText = "Jangan putus asa, cuba lagi!";
+            emoji.innerText = "💪😊";
+        }
+    }
+</script>
+
+</body>
+</html>
