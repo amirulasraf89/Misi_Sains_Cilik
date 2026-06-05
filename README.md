@@ -2,7 +2,7 @@
 
 # 🚀 Misi Sains Cilik
 
-**Kuiz Sains Tahun 2 bergambar emoji — seronok, pantas, dan mendidik!**
+**A fun, emoji-powered Science quiz app for Year 2 students — learn, play, and explore!**
 
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -13,68 +13,70 @@
 
 ---
 
-## ✨ Tentang Projek
+## ✨ About
 
-**Misi Sains Cilik** adalah aplikasi kuiz interaktif untuk murid Tahun 2 berdasarkan sukatan Sains KSSR. Setiap soalan dilengkapi emoji visual yang membantu pemahaman kanak-kanak.
-
----
-
-## 🎮 Cara Bermain
-
-1. Tekan **MULA** untuk mulakan misi
-2. Jawab **15 soalan rawak** daripada 100 soalan dalam pangkalan data
-3. Setiap soalan ada **masa 20 saat** — jawab lebih cepat, markah lebih tinggi!
-4. Anda ada **3 nyawa ❤️** — salah jawab atau masa tamat, nyawa berkurangan
-5. Lihat **markah akhir** dan cuba lagi!
-
-### 🌟 Sistem Markah
-| Keadaan | Markah |
-|---------|--------|
-| Jawapan betul | +10 |
-| Bonus masa | +1 hingga +10 (bergantung kecepatan) |
-| Jawapan salah / masa tamat | −1 nyawa |
+**Misi Sains Cilik** (Little Science Mission) is an interactive quiz app for Year 2 students based on the Malaysian KSSR Science syllabus. Each question features an emoji visual to aid understanding and keep young learners engaged.
 
 ---
 
-## 📚 Unit Pelajaran
+## 🎮 How to Play
 
-| Unit | Tajuk |
+1. Press **START** to begin your mission
+2. Answer **15 random questions** drawn from a bank of 100
+3. Each question has **20 seconds** — answer faster for a higher score!
+4. You have **3 lives ❤️** — a wrong answer or timeout costs one life
+5. See your **final score** and try again!
+
+### 🌟 Scoring System
+
+| Event | Points |
+|-------|--------|
+| Correct answer | +10 |
+| Time bonus | +1 to +10 (based on speed) |
+| Wrong answer / timeout | −1 life |
+
+---
+
+## 📚 Curriculum Units
+
+| Unit | Topic |
 |------|-------|
-| 1 | Kemahiran Saintifik |
-| 2 | Keselamatan di Bilik Sains |
-| 3 | Tumbesaran Manusia |
-| 4 | Pembiakan Haiwan |
-| 5 | Tumbesaran Tumbuhan |
-| 6 | Cahaya dan Bayang |
-| 7 | Elektrik dan Litar |
-| 8 | Campuran dan Kaedah Pengasingan |
-| 9 | Bumi — Air, Udara, dan Angin |
-| 10 | Teknologi — Set Binaan |
+| 1 | Science Skills |
+| 2 | Safety in the Science Lab |
+| 3 | Human Growth |
+| 4 | Animal Reproduction |
+| 5 | Plant Growth |
+| 6 | Light and Shadow |
+| 7 | Electricity and Circuits |
+| 8 | Mixtures and Separation Methods |
+| 9 | Earth — Water, Air, and Wind |
+| 10 | Technology — Construction Sets |
 
 ---
 
-## 🚀 Jalankan Projek
+## 🚀 Getting Started
 
-### Prasyarat
-- [Node.js](https://nodejs.org/) v18 ke atas
+### Prerequisites
 
-### Pemasangan
+- [Node.js](https://nodejs.org/) v18 or higher
+
+### Installation
 
 ```bash
-# 1. Klon repositori
+# 1. Clone the repository
 git clone https://github.com/amirulasraf89/Misi_Sains_Cilik.git
 cd Misi_Sains_Cilik
 
-# 2. Pasang kebergantungan
+# 2. Install dependencies
 npm install
 
-# 3. Jalankan pelayan pembangunan
+# 3. Start the development server
 npm run dev
 ```
 
-Buka **http://localhost:5173** dalam pelayar.
+Open **http://localhost:5173** in your browser.
 
-### Bina untuk Pengeluaran
+### Build for Production
 
 ```bash
 npm run build
@@ -83,40 +85,40 @@ npm run preview
 
 ---
 
-## 🗂️ Struktur Projek
+## 🗂️ Project Structure
 
 ```
 Misi_Sains_Cilik/
 ├── src/
-│   ├── App.tsx       # Semua skrin dan logik permainan
-│   ├── main.tsx      # Titik masuk
-│   └── index.css     # Tailwind + animasi kustom
+│   ├── App.tsx       # All screens and game logic
+│   ├── main.tsx      # Entry point
+│   └── index.css     # Tailwind + custom animations
 ├── index.html
 └── vite.config.ts
 ```
 
 ---
 
-## 🛠️ Teknologi
+## 🛠️ Tech Stack
 
-| Teknologi | Kegunaan |
-|-----------|----------|
+| Technology | Purpose |
+|------------|---------|
 | **React 19** | UI framework |
-| **TypeScript** | Menaip statik |
-| **Vite** | Alat binaan |
-| **Tailwind CSS v4** | Gaya & animasi |
-| **Lucide React** | Ikon |
+| **TypeScript** | Static typing |
+| **Vite** | Build tool |
+| **Tailwind CSS v4** | Styling & animations |
+| **Lucide React** | Icons |
 
 ---
 
-## 📄 Lesen
+## 📄 License
 
-Projek ini dibina untuk tujuan pendidikan — Sains KSSR Tahun 2.
+This project is built for educational purposes — Malaysian KSSR Year 2 Science.
 
 ---
 
 <div align="center">
 
-Dibina dengan ❤️ oleh **[amirulasraf89](https://github.com/amirulasraf89)**
+Made with ❤️ by **[amirulasraf89](https://github.com/amirulasraf89)**
 
 </div>
